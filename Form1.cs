@@ -46,5 +46,17 @@ namespace SQLite
             databaseManager.DeletePerson();
             loadPeople();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            var people = databaseManager.GetPeople();
+
+            foreach (var person in people)
+            {
+                listBox1.Items.Add($"{person.Name} {person.Surname}, wiek: {person.Age}");
+            }
+            loadPeople();
+        }
     }
 }

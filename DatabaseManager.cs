@@ -22,7 +22,7 @@ namespace SQLite
         }
         private void createTable()
         {
-            var command = new SqliteCommand("CREATE TABLE IF NOT EXISTS people (id int AUTO_INCREMENT NOT NULL, name STRING, surname STRING, age INT, PRIMARY KEY (id));",
+            var command = new SqliteCommand("CREATE TABLE IF NOT EXISTS people (name STRING, surname STRING, age INT);",
                 connection);
             command.ExecuteScalar();  
         }
@@ -59,6 +59,27 @@ namespace SQLite
         {
             var command = new SqliteCommand("DELETE FROM people WHERE name = (SELECT name FROM people ORDER BY name DESC LIMIT 1)", connection);
             command.ExecuteScalar();
+        }
+        public List<Person> GetSurname(Person person)
+        {
+            var people = new List<Person>();
+
+            var command = new SqliteCommand("SELECT name, surname, age FROM people WHERE surname = @surname", connection);
+
+            command.Parameters.AddWithValue("surname", person.Surname);
+
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                people.Add(new Person
+                {
+                    Name = reader.GetString(0),
+                    Surname = reader.GetString(1),
+                    Age = reader.GetInt32(2)
+                });
+            }
+            return people;
         }
     }
 }
