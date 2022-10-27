@@ -49,14 +49,19 @@ namespace SQLite
 
         private void button3_Click(object sender, EventArgs e)
         {
+            listBox1.Items.Clear();
 
-            var people = databaseManager.GetPeople();
-
-            foreach (var person in people)
+            var person = new Person
             {
-                listBox1.Items.Add($"{person.Name} {person.Surname}, wiek: {person.Age}");
+                Name = textBox1.Text,
+                Surname = textBox2.Text,
+                Age = (int)numericUpDown1.Value
+            };
+            var people = databaseManager.GetSurname(person);
+            foreach (var person2 in people)
+            {
+                listBox1.Items.Add($"{person2.Name} {person2.Surname}, wiek: {person2.Age}");
             }
-            loadPeople();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
 
 namespace SQLite
@@ -62,11 +63,11 @@ namespace SQLite
         }
         public List<Person> GetSurname(Person person)
         {
+
             var people = new List<Person>();
 
-            var command = new SqliteCommand("SELECT name, surname, age FROM people WHERE surname = @surname", connection);
-
-            command.Parameters.AddWithValue("surname", person.Surname);
+            var command = new SqliteCommand("SELECT * FROM people WHERE surname=@surname", connection);
+            command.Parameters.AddWithValue("@surname", person.Surname);
 
             var reader = command.ExecuteReader();
 
